@@ -14,17 +14,19 @@ personnel <- read.csv("output.csv", header = TRUE)
 # convert first name data to character datatype, make uppercase
 personnel$first_name <- as.character(toupper(personnel$first_name))
 
-# create birth year variables
+# create birth year min/max (assuming personnel are ages 18 to 100 at filing)
 personnel$birth_min <- as.character(personnel$fy - 100)
 personnel$birth_max <- as.character(personnel$fy - 17)
 
-# get gender values for each method
+# make a list with one of each name, make uppercase
 names <- unique(toupper(personnel$first_name))
+
+# predict gender using each method (excluding genderize due to 1k name limit)
 gender_ssa <- gender(names, method = "ssa") 
 gender_ipums <- gender(names, method = "ipums")
 gender_kant <- gender(names, method = "kantrowitz")
 
-# combine all method results into a data frame
+# combine all gender prediction results into a dataframe
 gender_data <- merge(data.frame(names), gender_ssa[,c(1,4)],
                      by.x = "names", by.y = "name", all.x=TRUE)
 gender_data <- merge(gender_data, gender_ipums[,c(1,4)],
@@ -33,24 +35,26 @@ gender_data <- merge(gender_data, gender_kant,
                      by.x = "names", by.y = "name", all.x=TRUE)
 colnames(gender_data) <- c("name", "ssa", "ipums", "kantrowitz")
 
-# predict gender based on most common result across methods
+# choose gender based on most common result across methods
 predicted_gender <- apply(gender_data[,c(2:4)], 1,
                           function(x) names(which.max(table(x))))
+
+# add the new predicted gender column to the dataframe, convert NULL to NA 
 gender_data <- cbind(gender_data, 
                      data.frame(gender=as.character(predicted_gender),
                                 stringsAsFactors = FALSE))
 gender_data$gender[gender_data$gender=="NULL"] <- NA
 
-# tally by gender
+# print a tally of genders, create a list of names with NA or 'either'
 print(tally(group_by(gender_data, gender)))
 unmatched_names <- gender_data[which(gender_data$gender == 'either' |
                                        is.na(gender_data$gender)),]
 
-# merge personnel and gender data
+# merge personnel and gender data by matching first names
 personnel$first_name <- as.character(personnel$first_name)
 data <- merge(personnel, gender_data[,c(1,5)], by.x = "first_name", 
               by.y = "name", all.x = TRUE)
 
-# export data to csv
+# export personnel and unmatched name data to csv files
 write.csv(data, "gender_output.csv", row.names = FALSE)
 write.csv(unmatched_names, "unmatched_names.csv", row.names = FALSE)
