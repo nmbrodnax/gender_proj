@@ -83,6 +83,9 @@ def main():
 
 
 def split_reversed_name(name_string):
+    """Takes a string formatted 'x,z' or 'x,y,z' and returns a list of x,
+    y (or None), and z
+    str -> list of str"""
     re_comma = r'(\w+),( \w+\.?,)? (.*)'
     comma_match = re.match(re_comma, name_string, re.I)
     if comma_match:
@@ -95,6 +98,9 @@ def split_reversed_name(name_string):
 
 
 def split_salutation(name_string):
+    """Takes a string formatted 'abrev x' where abrev is a salutation (Mr,
+    Mrs, Rev, etc.) and returns a list of abrev and x
+    str -> list of str"""
     re_salutation = r'(mr|mrs|ms|miss|rev|dr)\.? (.*)'
     salutation_match = re.match(re_salutation, name_string, re.I)
     # identify first name and remove punctuation if necessary
@@ -107,6 +113,9 @@ def split_salutation(name_string):
 
 
 def split_suffix(name_string):
+    """Takes a string formatted 'x abrev' where abrev is a suffix (Jr, Sr,
+        etc.) and returns a list of x and abrev
+        str -> list of str"""
     re_suffix = r'(.*) (jr|sr|i+)\.?'
     suffix_match = re.match(re_suffix, name_string, re.I)
     if suffix_match:
@@ -118,6 +127,9 @@ def split_suffix(name_string):
 
 
 def remove_punctuation(name_list):
+    """Takes a list of strings and returns a copy of the list with all
+    punctuation removed
+    list of str -> list of str"""
     new_name_list = []
     for name in name_list:
         if name:
@@ -128,7 +140,9 @@ def remove_punctuation(name_list):
 
 
 def format_name(name_string):
-    """Returns a list with first and last name
+    """Takes a string with any combination of 'first last', 'last, first',
+    'salutation', and 'suffix' and returns a list of [salutation or None,
+    first, last, suffix or None] with all punctuation removed
     str -> list of str"""
     reverse_check = split_reversed_name(name_string)
     if len(reverse_check) > 0:
@@ -161,6 +175,10 @@ def format_name(name_string):
 
 
 def format_name_test(name_list):
+    """Takes a list of strings with any combination of 'first last',
+    'last, first', 'salutation', and 'suffix' and prints the returned
+    values for a series of functions
+    list of str -> None"""
     for name in name_list:
         print("Reverse: " + name + ":" + str(split_reversed_name(name)))
         print("Salutation: " + name + ": " + str(split_salutation(name)))
