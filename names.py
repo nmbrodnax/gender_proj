@@ -71,6 +71,16 @@ def main():
         print("Format errors: " + str(error_counter))
         print("Key errors: " + str(key_error_counter))
 
+        # test the name formatting functions
+        test = ['NaLette M. Brodnax', 'Dr N Brodnax',
+                'NaLette Michelle Brodnax', 'David Brodnax, Jr.',
+                'Dr Patty Cunningham, Jr', 'N. M. Brodnax',
+                'Brodnax, NaLette', 'Brodnax, Jr, David',
+                'Brodnax, NaLette M.']
+        # format_name_test(test)
+        for name in test:
+            print(format_name(name))
+
 
 def split_reversed_name(name_string):
     re_comma = r'(\w+),( \w+\.?,)? (.*)'
@@ -127,10 +137,11 @@ def format_name(name_string):
         sal_check = split_salutation(reverse_check[2])
         if len(sal_check) > 0:
             salutation = sal_check[0]
-            first_name = sal_check[1]
+            remainder = sal_check[1]
         else:
             salutation = None
-            first_name = reverse_check[2]
+            remainder = reverse_check[2]
+        first_name = remainder.split()[0]
     else:
         suffix_check = split_suffix(name_string)
         if len(suffix_check) > 0:
@@ -158,14 +169,6 @@ def format_name_test(name_list):
         print("Punctuation: " + name + ": " + str(remove_punctuation(names)))
 
 
-# test the name formatting functions
-    # test = ['NaLette M. Brodnax', 'Dr N Brodnax', 'NaLette Michelle Brodnax',
-    #         'David Brodnax, Jr.', 'Dr David Brodnax, Sr', 'N. M. Brodnax',
-    #         'Brodnax, NaLette', 'Brodnax, Jr, David']
-    # format_name_test(test)
-    # for name in test:
-    #     print(format_name(name))
-
-
 if __name__ == '__main__':
+    # pass
     main()
