@@ -92,11 +92,11 @@ The [gender.R](gender.R) script produces two files: *gender_output.csv* and *unm
 
 The file *gender_output.csv* includes all the fields from *output.csv* as well as the following:
 
- - `birth_min`: calculated fy - 100
- - `birth_max`: calculated fy - 17
- - `gender`: predicted using the gender package
+ - `birth_min`: calculated as `fy` - 100
+ - `birth_max`: calculated as `fy` - 17
+ - `gender`: the most common gender prediction among methods
 
-The file *unmatched_names.csv* file includes a list of first names that were categorized as 'NA' or 'either' rather than 'male' or 'female'. The file includes the following fields:
+The file *unmatched_names.csv* includes a list of first names that were categorized as 'NA' or 'either' rather than 'male' or 'female'. The file includes the following fields:
 
  - `first_name`: unique name from 'gender_output.csv'
  - `ssa`: gender predicted by the 'ssa' method
