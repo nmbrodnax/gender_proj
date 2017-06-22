@@ -11,8 +11,46 @@ The input file *personnel.csv* includes the names, titles, and organization iden
 
 #### Formatting Names
 
-The full names of board members comprised a variety of formats, such as `Jane Doe`, `Doe, Jane`, `Dr. Jane Doe`, and `Jane Doe, Jr`. In order to predict gender for each person, I needed to extract the first name from each full name.  I developed four functions to split each full name into four components: salutation, first name, last name, and suffix.
+The full names of board members comprised a variety of formats, such as `Jane Doe`, `Doe, Jane`, `Dr. Jane Doe`, and `Jane Doe, Jr`. In order to predict gender for each person, I needed to extract the first name from each full name.  I developed the following functions to split each name into a salutation (if applicable), first name, last name, and suffix (if applicable), and remove punctuation.
 
+`split_reversed_name()` splits the last name from remaining characters, regardless of sequence. Examples:
+```python
+>>> split_reversed_name("Doe, Jane")
+["Doe", None, "Jane"]
+
+>>> split_reversed_name("Doe, Jr., Jane")
+["Doe", "Jr.", "Jane"]
+
+>>> split_reversed_name("Dr. Jane Doe")
+["Doe", None, "Dr. Jane"]
+```
+
+`split_salutation()` splits the salutation, if present, from remaining characters. Examples:
+```python
+>>> split_salutation("Dr. Jane E. Doe")
+["Dr.", "Jane E. Doe"]
+
+>>> split_salutation("Ms Jane")
+["Ms", "Jane"]
+
+>>> split_salutation("Jane Doe")
+[None, "Jane Doe"]
+```
+
+`split_suffix()` splits the suffix, if present, from remaining characters. Examples:
+```python
+>>> split_suffix("Jane Doe, Esq.")
+["Esq.", "Jane Doe"]  
+
+>>> split_suffix("Jane Doe")
+[None, "Jane Doe"] 
+```
+
+`remove_punctuation()` removes punctuation from all name elements. Example:
+```python
+>>> remove_punctuation(["Dr.", "Jane", "Doe", "Esq."])
+["Dr", "Jane", "Doe", "Esq"]
+```
 #### Saving the Output
 
 The [names.py](names.py) script, which includes the preceding function definitions, produces the output file *output.csv*.  The file includes the following fields:
