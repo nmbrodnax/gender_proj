@@ -7,23 +7,23 @@ All source data were derived from IRS 990 filings.
 
 #### Loading Data 
 
-The input file 'personnel.csv' includes the names, titles, and organization identifiers for each individual, as well as the source of the information.  The input file 'orgs.csv' includes an organization identifier as well as each organization's name, IRS identifier, location, and financials.  Neither source nor input files are included in the repository.
+The input file *personnel.csv* includes the names, titles, and organization identifiers for each individual, as well as the source of the information.  The input file *orgs.csv* includes an organization identifier as well as each organization's name, IRS identifier, location, and financials.  Neither source nor input files are included in the repository.
 
 #### Formatting Names
 
-The full names of board members comprised a variety of formats, such as Jane Doe, Doe, Jane, Dr. Jane Doe, and John Doe, Jr. In order to predict gender for each person, I needed to extract the first name from each full name.  I developed four functions to split each full name into four components: salutation, first name, last name, and suffix.
+The full names of board members comprised a variety of formats, such as `Jane Doe`, `Doe, Jane`, `Dr. Jane Doe`, and `Jane Doe, Jr`. In order to predict gender for each person, I needed to extract the first name from each full name.  I developed four functions to split each full name into four components: salutation, first name, last name, and suffix.
 
 #### Saving the Output
 
-The [names.py](names.py) script, which includes the preceding function definitions, produces the output file 'output.csv'.  The file includes the following fields:
+The [names.py](names.py) script, which includes the preceding function definitions, produces the output file *output.csv*.  The file includes the following fields:
 
- - `id`: organization identifier associated with board member (personnel.csv)
- - `ez_file`: 1 if the record came from a 990EZ filing, 0 otherwise (manually added to personnel.csv)
- - `name`: full name of board member (personnel.csv)
- - `title`: title of board member (personnel.csv)
- - `source_file`: PRE if the 990 form was filed before 2008, POST otherwise (manually added to personnel.csv)
- - `org_name`: name of organization (orgs.csv)
- - `fy`: fiscal year of 990 filing (orgs.csv)
+ - `id`: organization identifier associated with board member (*personnel.csv*)
+ - `ez_file`: 1 if the record came from a 990EZ filing, 0 otherwise (manually added to *personnel.csv*)
+ - `name`: full name of board member (*personnel.csv*)
+ - `title`: title of board member (*personnel.csv*)
+ - `source_file`: PRE if the 990 form was filed before 2008, POST otherwise (manually added to *personnel.csv*)
+ - `org_name`: name of organization (*orgs.csv*)
+ - `fy`: fiscal year of 990 filing (*orgs.csv*)
  - `first_name`: derived from 'name'
  - `salutation`: derived from 'name'
  - `last name`: derived from 'name'
@@ -42,7 +42,7 @@ Optional function parameters include year of birth (or a range of years) and cou
 
 #### Loading Data
 
-All first names analyzed are included in the 'output.csv' file.  Before running the analysis, I created a vector of unique names.  
+All first names analyzed are included in the *output.csv* file.  Before running the analysis, I created a vector of unique names.  
 
 #### Predicting Gender
 
@@ -50,15 +50,15 @@ The different methods provide different results, so I analyzed the names using t
 
 #### Saving the Output
 
-The [gender.R](gender.R) script produces two files: 'gender_output.csv' and 'unmatched_names.csv'.
+The [gender.R](gender.R) script produces two files: *gender_output.csv* and *unmatched_names.csv*.
 
-The file 'gender_output.csv' includes all the fields from 'output.csv' as well as the following:
+The file *gender_output.csv* includes all the fields from *output.csv* as well as the following:
 
  - `birth_min`: calculated fy - 100
  - `birth_max`: calculated fy - 17
  - `gender`: predicted using the gender package
 
-The file 'unmatched_names.csv' file includes a list of first names that were categorized as 'NA' or 'either' rather than 'male' or 'female'. The file includes the following fields:
+The file *unmatched_names.csv* file includes a list of first names that were categorized as 'NA' or 'either' rather than 'male' or 'female'. The file includes the following fields:
 
  - `first_name`: unique name from 'gender_output.csv'
  - `ssa`: gender predicted by the 'ssa' method
