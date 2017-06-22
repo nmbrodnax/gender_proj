@@ -7,7 +7,7 @@ All source data were derived from IRS 990 filings.
 
 #### Loading Data 
 
-The input file *personnel.csv* includes the names, titles, and organization identifiers for each individual, as well as the source of the information.  The input file *orgs.csv* includes an organization identifier as well as each organization's name, IRS identifier, location, and financials.  Neither source nor input files are included in the repository.
+The input file *personnel.csv* includes the names, titles, and organization identifiers for each individual, as well as the source of the information.  The input file *orgs.csv* includes an organization identifier as well as each organization's name, IRS identifier, location, and financials.  **Neither source nor input files are included in the repository**.
 
 #### Formatting Names
 
